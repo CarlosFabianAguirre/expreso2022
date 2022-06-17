@@ -5,5 +5,11 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'soy un capo' });
 });
-
+/*get nosotros page */
+router.get("/nosotros",(req, res)=>{
+  res.render("pages/nosotros")
+});
+router.get("/contacto",(req, res)=>{
+  res.render("pages/contacto")
+});
 module.exports = router;
