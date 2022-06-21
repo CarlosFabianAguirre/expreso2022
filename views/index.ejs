@@ -12,5 +12,14 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <%- include("partials/nav.ejs")%>
+
+    <form action="/buscar" method="GET">
+      <label>
+        buscar libro
+      <input type="search" name="termino">
+    </label>
+    <input type="submit" value="buscar">
+    </form>
+
   </body>
 </html>

@@ -20,4 +20,17 @@ a {
   text-decoration: none;
 }
 .nav-a:hover {
-  text-decoration: underlin
+  text-decoration: underline;
+}
+
+.form-agregar{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+.form-agregar_label {
+display: grid;
+grid-template-columns: 130px 1fr;
+
+}
