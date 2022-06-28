@@ -34,3 +34,16 @@ display: grid;
 grid-template-columns: 130px 1fr;
 
 }
+.libro{
+  display:grid;
+  grid-template-columns: 400px 1fr;
+  gap:16px;
+}
+.libro-titulo {
+  margin-top: 0;
+
+}
+.libro-subtitulo{
+  color:#333;
+
+}

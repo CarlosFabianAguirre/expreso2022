@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%= libro.titulo %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    
+    <%- include("../partials/nav.ejs")%>
+<div class="libro">
+    <img class="libro-img" src="http://placekitten.com/400/600" alt="">
+    <div class="libro-info">    
+        <h1 class="libro-titulo"><%= libro.titulo %></h1>
+        <p class="libro-subtitulo"><%= libro.autor.nombreCompleto %> <span class ="precio"> $<%= libro.precio %></span></p>
+        <form action ="/sarasa">
+            <label>
+                cantidad:
+               <input type="number" name ="cantidad" value="1">
+            </label>
+            <input type="submit" value ="agregar al carrito">   
+        </form>
+    </div>
+</div>
+    
+</body>
+</html>
