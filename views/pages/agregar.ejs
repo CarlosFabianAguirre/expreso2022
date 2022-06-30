@@ -14,15 +14,29 @@
    <form class="form-agregar" action="/agregar-libro" method="post">
     <label class="form-agregar_label">
         Título:
-        <input type="text" name="titulo">
+        <input type="text" name="titulo" required>
     </label>
     <label class="form-agregar_label">
         Autor:
-        <input type="text" name="autor">
+        
+            <select name="autorId">
+                <% autores.forEach(autorId => { %>
+                    <option value="<%= autorId.id %>"><%= autorId.nombreCompleto %></option>
+                <% }) %>
+            </select>
+
+
+
+        </select>
     </label>
     <label class="form-agregar_label">
+        codigo pais:
+        <input type="text" name="codigoPais">
+    </label>
+
+    <label class="form-agregar_label">
         Precio:
-        <input type="number" name="precio">
+        <input type="number" name="precio" required>
     </label>
     <input type="submit" value="Agregar libro">
 </form>

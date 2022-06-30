@@ -1,16 +1,32 @@
 var express = require('express');
 var router = express.Router();
 
-const api = require("../api");
-
-
+// Importamos nuestra api
+const api = require('../api');
 
 /* GET home page. */
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
+  // Llamamos a la función getBooks que está dentro de api
   const libros = await api.getBooks();
-  console.log(libros);
-  res.render('index', { title: 'HARRY POTTER',libros });
-//res.send(libros);
+  // console.log(libros);
+
+  // Si soy un servicio como Open weather map entonces siempre devuelto JSON usando res.send(resultado)
+  // angular
+  // res.send(libros);
+
+  // monorepo Vs monolito
+  res.render('index', { title: 'Ron Weasley', libros });
+});
+
+router.get('/libro/:id', async (req, res) => {
+  // params
+
+  // Le enviamos como parámetro el ID del libro que quiere ver el usuario
+  const libro = await api.getBookById(req.params.id);
+  // console.log(libro);
+
+  // res.send(`Estás viendo el libro ${req.params.id}`);
+  res.render('pages/libro', {libro});
 });
 
 // Crear una ruta de /autores
@@ -21,13 +37,39 @@ router.get('/autores', async (req, res) => {
   res.send(autores);
 });
 
+/* GET agregar */
+router.get('/agregar', async (req, res) => {
+  // Conseguir autores
+  const autores = await api.getAuthors();
 
-router.get("/libro/:id", async (req, res)=>{
+  res.render('pages/agregar', {autores});
+});
 
-  const libro = await api.getBookById(req.params.id);
-  //console.log(libro);
-  // res.send (`estas viendo el libro ${req.params.id}`);
-  res.render("pages/libro", {libro});
+/*
+  GET
+    req.params: (/:id)
+    req.query: (?termino=sarasa)
+  POST
+    req.body
+*/
+
+/* POST agregar-libro */
+router.post('/agregar-libro', async (req, res) => {
+  // Conseguir lo que el usuario tipeó
+  // Para levantar algo por método post tengo que usar
+  // req.body
+  // console.log(req.body);
+
+  let {titulo, autor, precio} = req.body;
+
+  // titulo, precio, portada, autorId
+  await api.insertBook(titulo, precio, '', autor);
+  // const libro = await api.insertBook(titulo, precio, '', autor);
+  // console.log(libro);
+
+  res.redirect('/');
+  // res.send(`Agregaron ${titulo} | ${autor} | ${precio}`);
+  // res.render('pages/agregar');
 });
 
 
@@ -37,35 +79,28 @@ router.get("/libro/:id", async (req, res)=>{
 
 
 
-
-/*get nosotros page */
-router.get("/buscar",async (req, res)=>{
-  //guardar en la variable lo que escribio el usuario en la consola
-  let{ termino} =req.query;
-  //mostrar en la terminal
+/* GET nosotros page */
+router.get('/buscar', async (req, res) => {
+  // query
+  // Guardar en una variable lo que escribió el usuario en el campo
+  let { termino } = req.query;
+  // let termino = req.query.termino;
   console.log(termino);
+  // Magia de conexión a DB SELECT
   const resultados = await api.findBookByTitle(termino);
 
-  res.send(resultados)
+  // Mostrarlo en la terminal
+  res.send(resultados);
 });
 
-
-
-router.post("/agregar-libro",(req, res)=>{
-  console.log(req.body);
-  let {titulo, autor, precio} = req.body;
-  res.send(`agregaron ${titulo } ${autor} ${precio}`
-  )
+/* GET nosotros page */
+router.get('/nosotros', (req, res) => {
+  res.render('pages/nosotros')
 });
 
-router.get("/agregar",(req, res)=>{
-  res.render("pages/agregar")
+/* GET contacto page */
+router.get('/contacto', (req, res) => {
+  res.render('pages/contacto')
 });
 
-router.get("/nosotros",(req, res)=>{
-  res.render("pages/nosotros")
-});
-router.get("/contacto",(req, res)=>{
-  res.send("pages/contacto")
-});
 module.exports = router;

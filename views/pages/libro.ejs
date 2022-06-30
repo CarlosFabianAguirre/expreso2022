@@ -11,7 +11,7 @@
     
     <%- include("../partials/nav.ejs")%>
 <div class="libro">
-    <img class="libro-img" src="http://placekitten.com/400/600" alt="">
+    <img class ="libro-img" src ="<%= libro.portada %>">
     <div class="libro-info">    
         <h1 class="libro-titulo"><%= libro.titulo %></h1>
         <p class="libro-subtitulo"><%= libro.autor.nombreCompleto %> <span class ="precio"> $<%= libro.precio %></span></p>

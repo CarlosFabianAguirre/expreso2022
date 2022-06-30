@@ -1,26 +1,26 @@
-const {op}= require("sequelize");
-const { sequelize } = require("../models");
-const db = require("../models");
 
-//select * from libros 
-const getBooks = async()=> {
-    const libros = await db.libro
-            .findAll({
-                include: db.autor
-            })
+const { Op } = require("sequelize");
 
-            //busca resultados y los devuelva
-            .then(results =>{
-            return results;
-   
-       
-        });
-        return libros
+// Traemos la DB
+const db = require('../models');
+
+// SELECT * FROM libros
+// JOIN ..... autor
+const getBooks = async () => {
+    const libros = await db.libro.findAll({
+                            include: db.autor
+                        })
+                        .then(results => {
+                            return results;
+                        });
+
+    return libros;
 }
 
 const getAuthors = async () => {
-    const authors = await db.autor.findAll()
-                    .then(results => {
+    const authors = await db.autor.findAll({
+                        order: ['nombreCompleto'],
+                    }).then(results => {
                         return results;
                     });
 
@@ -28,14 +28,17 @@ const getAuthors = async () => {
 }
 
 const getBookById = async (id) => {
-    console.log("recibiste",id);
-    const book = await  db.libro.findByPk(id,{include:db.autor})
-                                .then(result => {
-                                return result;
-        });
-    return book; 
+    // console.log('Recibiste', id);
+    // Find by primary key / buscar por ID
+    const book = await db.libro.findByPk(id, {include: db.autor})
+                    .then(result => {
+                        return result;
+                    });
+
+    return book;
 };
 
+// WHERE titulo LIKE "%termino%"
 const findBookByTitle = async (termino) => {
     const books = await db.libro.findAll({
         where: {
@@ -44,15 +47,24 @@ const findBookByTitle = async (termino) => {
             }
         }
     }).then(result => {
-            return result;
-});
-    
-    return books 
+        return result;
+    });
+
+    return books;
 }
+
+const insertBook = async (titulo, precio, portada, autorId) => {
+    const libro = await db.libro.create({
+        titulo, precio, portada, autorId
+    });
+    return libro;
+}
+
 
 module.exports = {
     getBooks,
     getAuthors,
     getBookById,
-    findBookByTitle
+    findBookByTitle,
+    insertBook
 }
